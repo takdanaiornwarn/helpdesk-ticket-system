@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Roles
+enum Role {
+  USER
+  ADMIN
+}
+
+// Ticket Status
+enum TicketStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+// Ticket Priority
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// 1. Users
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+
+  createdTickets  Ticket[]        @relation("CreatedTickets")
+  assignedTickets Ticket[]        @relation("AssignedTickets")
+  ticketHistory   TicketHistory[]
+}
+
+// 2. Categories
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  tickets Ticket[]
+}
+
+// 3. Tickets
+
+model Ticket {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String
+  status      TicketStatus @default(NEW)
+  priority    Priority     @default(MEDIUM)
+
+  createdById  Int
+  assignedToId Int?
+  categoryId   Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy  User     @relation("CreatedTickets", fields: [createdById], references: [id])
+  assignedTo User?    @relation("AssignedTickets", fields: [assignedToId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  history TicketHistory[]
+}
+
+model TicketHistory {
+  id        Int           @id @default(autoincrement())
+  ticketId  Int
+  actorId   Int
+  oldStatus TicketStatus?
+  newStatus TicketStatus
+  note      String?
+  createdAt DateTime      @default(now())
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  actor  User   @relation(fields: [actorId], references: [id])
+}

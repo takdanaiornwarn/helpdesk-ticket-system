@@ -1,0 +1,177 @@
+
+/* ========================================
+   ADMIN TICKET ASSIGNMENT
+   STEP 13.6.2
+======================================== */
+
+.aa-panel {
+  margin-top: 22px;
+}
+
+.aa-heading {
+  margin-bottom: 24px;
+}
+
+.aa-heading h2 {
+  margin: 8px 0;
+  font-size: 19px;
+  color: #111827;
+}
+
+.aa-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.aa-current-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 18px;
+  margin-bottom: 24px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.aa-label {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.aa-current-box strong {
+  color: #111827;
+  font-size: 16px;
+}
+
+.aa-current-box small {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.aa-current-box .aa-unassigned {
+  color: #b45309;
+}
+
+.aa-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aa-form-group label {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.aa-form-group input {
+  width: 100%;
+  min-height: 45px;
+  padding: 12px 14px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+
+  background: white;
+  color: #111827;
+  font: inherit;
+  font-size: 14px;
+}
+
+.aa-form-group input:focus {
+  outline: 2px solid #bfdbfe;
+  border-color: #2563eb;
+}
+
+.aa-form-group small {
+  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.aa-self-button {
+  margin-top: 12px;
+  padding: 8px 0;
+
+  border: none;
+  background: transparent;
+
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.aa-self-button:hover {
+  text-decoration: underline;
+}
+
+.aa-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.aa-unassign-button {
+  padding: 11px 19px;
+
+  border: 1px solid #fecaca;
+  border-radius: 9px;
+
+  background: #fff7f7;
+  color: #b91c1c;
+
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.aa-unassign-button:hover:not(:disabled) {
+  background: #fee2e2;
+}
+
+.aa-unassign-button:disabled,
+.aa-self-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.aa-error,
+.aa-success {
+  margin-top: 16px;
+  padding: 13px 15px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.aa-error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.aa-success {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+@media (max-width: 600px) {
+  .aa-panel {
+    margin-top: 16px;
+  }
+
+  .aa-actions {
+    flex-direction: column;
+  }
+
+  .aa-actions button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,34 @@
+
+/* ========================================
+   ASSIGNED TO ME PAGE
+======================================== */
+
+.assigned-page {
+  width: 100%;
+}
+
+.at-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.at-summary h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+}
+
+.at-summary span {
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  background: #eff6ff;
+  color: #1d4ed8;
+
+  font-size: 12px;
+  font-weight: 700;
+}
