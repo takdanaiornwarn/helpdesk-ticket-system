@@ -1,73 +1,123 @@
 
 # Helpdesk Ticket Management System
 
-A full-stack web application for creating, tracking, assigning,
-and managing IT support tickets.
+A full-stack web application for managing IT support tickets,
+built with Node.js, Express, React, Prisma ORM, and PostgreSQL.
 
-Built as a portfolio project to demonstrate backend development,
-RESTful API design, authentication, authorization, relational
-database management, automated testing, and React integration.
+This portfolio project demonstrates RESTful API development,
+JWT authentication, role-based authorization, relational
+database design, automated testing, and frontend integration.
+
+## Project Highlights
+
+- Full-stack application with a React frontend and Express backend
+- JWT authentication and role-based access control (RBAC)
+- Complete ticket CRUD operations
+- Ticket status tracking and change history
+- ADMIN ticket assignment and category management
+- Search, filtering, sorting, pagination, and CSV export
+- Automated API testing using Node.js Test Runner
+- Centralized error handling and React Error Boundary
 
 ## Tech Stack
 
-### Backend
-- Node.js
-- Express.js
-- PostgreSQL
-- Prisma ORM
-- JWT Authentication
-- Password Hashing with bcrypt
+| Layer | Technologies |
+|---|---|
+| Frontend | React, JavaScript, Vite, CSS |
+| Backend | Node.js, Express.js |
+| Database | PostgreSQL |
+| ORM | Prisma |
+| Authentication | JWT, bcryptjs |
+| Testing | Node.js Test Runner, Postman |
+| Tools | VS Code, Git, GitHub, pgAdmin |
 
-### Frontend
-- React
-- JavaScript
-- Vite
-- HTML5
-- CSS3
-- Fetch API
+## System Architecture
 
-### Development Tools
-- Visual Studio Code
-- Postman
-- pgAdmin
-- Git and GitHub
+```mermaid
+flowchart TD
+    A["User / Admin"] --> B["React Frontend"]
+    B -->|"REST API / JSON"| C["Express Backend"]
+    C --> D["JWT Authentication"]
+    D --> E["Role-Based Authorization"]
+    E --> F["Business Logic"]
+    F --> G["Prisma ORM"]
+    G --> H[("PostgreSQL")]
+
+    F --> I["Ticket CRUD"]
+    F --> J["Status & History"]
+    F --> K["Assignment"]
+    F --> L["Category Management"]
+```
+
+The backend is responsible for authentication, authorization,
+request validation, and database operations.
+
+The frontend displays information according to the user's role.
+Backend authorization remains the source of truth.
+
+## Database Design
+
+The application uses four main Prisma models:
+
+- **User**: Account information and roles
+- **Ticket**: Support requests, ownership, assignment, and status
+- **Category**: Classification of support tickets
+- **TicketHistory**: Status changes, actors, and notes
+
+```mermaid
+erDiagram
+    User ||--o{ Ticket : creates
+    User o|--o{ Ticket : assigned_to
+    Category ||--o{ Ticket : categorizes
+    Ticket ||--o{ TicketHistory : records
+    User ||--o{ TicketHistory : performs
+```
 
 ## Features
 
-### Authentication and Authorization
-- User registration
-- JWT-based login
-- Protected REST APIs
-- Role-based access control (USER / ADMIN)
+### Authentication & Authorization
+
+- User registration and login
+- JWT authentication
+- Protected API endpoints
+- USER and ADMIN roles
+- Authorization checks on the backend
 - Session expiration handling
 
 ### Ticket Management
-- Create support tickets
-- View ticket lists and details
-- Edit ticket information
+
+- Create tickets
+- View accessible tickets
+- View ticket details
+- Update tickets
 - Delete tickets with confirmation
-- Search, filter, and sort tickets
-- Client-side pagination
+- Filter by status and priority
+- Search by ticket ID and title
+- Sort and paginate tickets
 - Export filtered tickets to CSV
 
-### ADMIN Features
-- View all support tickets
+### ADMIN Management
+
+- View tickets across the system
 - Change ticket status
-- View ticket status history
+- View status history
+- Record status-change notes
 - Assign, reassign, and unassign tickets
 - View tickets assigned to the current ADMIN
-- Create, update, and delete categories
+- Create, edit, and delete categories
 
 ### Reliability
+
 - Centralized API error handling
-- Frontend form validation
+- Form validation
+- Network error messages
+- Authentication error handling
 - React Error Boundary
-- Backend connection error handling
 - Automated backend tests
 
-## User Roles
+## Roles and Permissions
 
-| Feature | USER | ADMIN |
+| Function | USER | ADMIN |
 |---|---|---|
 | Login | Yes | Yes |
 | Create Ticket | Yes | Yes |
@@ -76,84 +126,57 @@ database management, automated testing, and React integration.
 | Edit Authorized Tickets | Yes | Yes |
 | Delete Authorized Tickets | Yes | Yes |
 | Change Ticket Status | No | Yes |
-| Assign Tickets | No | Yes |
+| Assign Ticket | No | Yes |
 | Manage Categories | No | Yes |
 
-## System Architecture
-
-Frontend (React + Vite)
-        |
-        | HTTP Requests / REST API
-        v
-Backend (Node.js + Express)
-        |
-        | Authentication / Authorization
-        v
-Prisma ORM
-        |
-        v
-PostgreSQL Database
-
-## Database Models
-
-- User
-- Ticket
-- Category
-- TicketHistory
-
-The database uses relational models to represent ticket
-ownership, assignments, categories, and status changes.
-
-## REST API Endpoints
+## REST API
 
 ### Authentication
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | /api/auth/register | Register user |
-| POST | /api/auth/login | Login |
-| GET | /api/auth/me | Get current user |
+| POST | `/api/auth/register` | Register |
+| POST | `/api/auth/login` | Login |
+| GET | `/api/auth/me` | Current user |
 
 ### Tickets
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | /api/tickets | List accessible tickets |
-| GET | /api/tickets/:id | Get ticket details |
-| POST | /api/tickets | Create ticket |
-| PUT | /api/tickets/:id | Update ticket |
-| DELETE | /api/tickets/:id | Delete ticket |
-| PATCH | /api/tickets/:id/status | Update status |
-| GET | /api/tickets/:id/history | Get status history |
-| PATCH | /api/tickets/:id/assign | Assign ticket |
-| GET | /api/tickets/assigned/me | Assigned tickets |
+| GET | `/api/tickets` | Get accessible tickets |
+| GET | `/api/tickets/:id` | Get ticket details |
+| POST | `/api/tickets` | Create ticket |
+| PUT | `/api/tickets/:id` | Update ticket |
+| DELETE | `/api/tickets/:id` | Delete ticket |
+| PATCH | `/api/tickets/:id/status` | Update status |
+| GET | `/api/tickets/:id/history` | Status history |
+| PATCH | `/api/tickets/:id/assign` | Assign ticket |
+| GET | `/api/tickets/assigned/me` | My assigned tickets |
 
 ### Categories
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | /api/categories | List categories |
-| POST | /api/categories | Create category |
-| PUT | /api/categories/:id | Update category |
-| DELETE | /api/categories/:id | Delete category |
+| GET | `/api/categories` | Get categories |
+| POST | `/api/categories` | Create category |
+| PUT | `/api/categories/:id` | Update category |
+| DELETE | `/api/categories/:id` | Delete category |
 
-## Local Setup
+## Getting Started
 
 ### Prerequisites
 
-Install:
-- Node.js and npm
+- Node.js
+- npm
 - PostgreSQL
 - Git
 
-### 1. Clone Repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/helpdesk-ticket-system.git
+git clone https://github.com/takdanaiornwarn/helpdesk-ticket-system.git
 cd helpdesk-ticket-system
 ```
-
-Replace `YOUR_USERNAME` with your GitHub username.
 
 ### 2. Install Backend Dependencies
 
@@ -161,120 +184,136 @@ Replace `YOUR_USERNAME` with your GitHub username.
 npm install
 ```
 
-### 3. Configure Environment
+### 3. Configure Environment Variables
 
-Create a `.env` file in the project root.
+Create `.env` in the project root based on `.env.example`.
 
-Use `.env.example` as the template and update the values
-to match your local PostgreSQL database and JWT configuration.
+Required variables include:
 
-Never commit real passwords, tokens, or JWT secrets.
+```dotenv
+DATABASE_URL="postgresql://DB_USER:DB_PASSWORD@localhost:5432/helpdesk_db?schema=public"
+JWT_SECRET="REPLACE_WITH_A_SECURE_RANDOM_SECRET"
+JWT_EXPIRES_IN="1h"
+```
 
-### 4. Set Up PostgreSQL
+Use your own database credentials and JWT secret.
 
-Create the database configured in `DATABASE_URL`.
+Never commit real credentials to GitHub.
 
-Then run:
+### 4. Configure the Database
+
+Create the PostgreSQL database defined in `DATABASE_URL`.
+
+Run:
 
 ```bash
 npx prisma generate
 npx prisma migrate deploy
 ```
 
-Set up the required user accounts and categories before
-testing protected functionality.
+Create the necessary accounts and categories before
+testing authenticated functionality.
 
-### 5. Start Backend
+### 5. Start the Backend
 
 ```bash
-node app.js
+npm start
 ```
 
-Backend URL:
+Backend:
 
 http://localhost:3000
 
-### 6. Install Frontend Dependencies
+### 6. Start the Frontend
 
 Open a second terminal:
 
 ```bash
 cd frontend
 npm install
-```
-
-### 7. Start Frontend
-
-```bash
 npm run dev
 ```
 
-Frontend URL:
+Frontend:
 
 http://localhost:5173
 
-The development proxy forwards `/api` requests to the Backend.
+The Vite development proxy forwards `/api` requests to
+the local Express backend.
 
-## Automated Tests
+## Testing
 
-From the project root:
+Backend API tests use Node.js Test Runner.
+
+With PostgreSQL and the backend running, execute from
+the project root:
 
 ```bash
-node --test
+npm test
 ```
 
-## Frontend Quality Checks
+Some tests require the configured test USER and ADMIN accounts
+in the backend `.env` file.
 
-From the `frontend` directory:
+Frontend validation:
 
 ```bash
+cd frontend
 npm run lint
 npm run build
 ```
 
-To preview the production build locally:
+## Screenshots
 
-```bash
-npm run preview
-```
+Application screenshots will be added to this section.
 
-Preview URL:
+Recommended views:
 
-http://localhost:4173
 
-## Deployment Notes
+## Screenshots
 
-The frontend requires a reachable Express backend and
-a configured PostgreSQL database.
+### Dashboard
+![Dashboard](docs/screenshots/Helpdesk-Dashboard.png)
 
-A production deployment must route `/api` requests to
-the backend service and configure HTTPS.
+### All Tickets
+![All Tickets](docs/screenshots/Helpdesk-All-Tickets.png)
 
-The current authentication approach uses sessionStorage
-for the portfolio demonstration. A production deployment
-should use an appropriately secured session strategy.
+### Ticket Details
+![Ticket Details](docs/screenshots/Helpdesk-Ticket-Details.png)
 
-## Security
+### Ticket Assignment
+![Ticket Assignment](docs/screenshots/Helpdesk-Ticket-Assignment.png)
 
-- Authentication using JWT
-- Role-based authorization enforced on the server
-- Password hashing
-- Request validation
-- Protected ADMIN endpoints
-- Secrets stored outside the source code
+### Categories Management
+![Categories Management](docs/screenshots/Helpdesk-Categories-Management.png)
 
-## Project Status
 
-Full-stack portfolio project with implemented ticket
-CRUD, ADMIN workflows, React frontend, and API tests.
+## Security Notes
+
+- Passwords are hashed using bcryptjs
+- API authentication uses JWT
+- Role-based authorization is enforced by the backend
+- ADMIN operations require authorization
+- Secrets are stored outside source control
+
+The current frontend uses sessionStorage for JWT storage
+in this portfolio demonstration.
+
+For production use, consider secure HttpOnly cookies,
+HTTPS, CSRF protections where applicable, rate limiting,
+and an appropriate deployment security review.
 
 ## Future Improvements
 
 - Server-side pagination
-- File attachments
+- Ticket attachments
 - Email notifications
 - Audit logging
-- Secure cookie-based sessions
-- CI/CD pipeline
+- CI/CD
 - Cloud deployment
+- Production-ready session management
+
+## Repository
+
+https://github.com/takdanaiornwarn/helpdesk-ticket-system
 ```

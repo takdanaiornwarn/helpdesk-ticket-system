@@ -1,15 +1,30 @@
+
 {
   "name": "helpdesk-ticket-system",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "Full-stack Helpdesk Ticket Management System with React, Express, Prisma and PostgreSQL",
+  "main": "app.js",
   "type": "commonjs",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "test": "node --test",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy"
+  },
+  "keywords": [
+    "helpdesk",
+    "ticket-management",
+    "nodejs",
+    "express",
+    "react",
+    "prisma",
+    "postgresql",
+    "rest-api",
+    "jwt"
+  ],
+  "author": "takdanaiornwarn",
+  "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
